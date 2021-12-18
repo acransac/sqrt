@@ -26,7 +26,9 @@ function sqrt(x, modulo) {
              && modulo > 1
              && Number.isInteger(modulo)) {
     return (roots => {
-      return isNaN(roots) ? roots : roots.map(bigInt => Number(bigInt)).sort((a, b) => a - b);
+      return Number.isNaN(roots)
+        ? roots
+        : roots.map(bigInt => Number(bigInt)).sort((a, b) => a - b);
     })(tonelliShanks(BigInt(x), BigInt(modulo)));
   }
   else if (typeof x === "bigint"
@@ -34,7 +36,7 @@ function sqrt(x, modulo) {
              && x < modulo
              && typeof modulo === "bigint"
              && modulo > 1n) {
-    return (roots => isNaN(roots) ? roots : roots.sort((a, b) => a - b > 0n ? 1 : 0))
+    return (roots => Number.isNaN(roots) || roots[1] > roots[0] ? roots : [roots[1], roots[0]])
              (tonelliShanks(x, modulo));
   }
   else {

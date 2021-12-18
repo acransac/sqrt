@@ -31,7 +31,7 @@ describe("Compute modular integer square root", () => {
       expect(sqrt(3, 13)).toEqual([4, 9]);
     });
     
-    test.only("Fail to compute the square root of a quadratic non-residue", () => {
+    test("Fail to compute the square root of a quadratic non-residue", () => {
       expect(sqrt(2, 3)).toBeNaN();
     });
     
@@ -67,13 +67,21 @@ describe("Compute modular integer square root", () => {
   });
 
   describe("With small Javascript BigInts", () => {
-    test("Compute the square root of an integer modulo 2", () => { expect(false).toBe(true); });
+    test("Compute the square root of an integer modulo 2", () => {
+      expect(sqrt(1n, 2n)).toEqual([1n, 1n]);
+    });
     
-    test("Compute the square root of an integer modulo an odd prime p = 3 mod 4", () => { expect(false).toBe(true); });
+    test("Compute the square root of an integer modulo an odd prime p = 3 mod 4", () => {
+      expect(sqrt(3n, 11n)).toEqual([5n, 6n]);
+    });
     
-    test("Compute the square root of an integer modulo an odd prime p = 1 mod 4", () => { expect(false).toBe(true); });
+    test("Compute the square root of an integer modulo an odd prime p = 1 mod 4", () => {
+      expect(sqrt(3n, 13n)).toEqual([4n, 9n]);
+    });
     
-    test("Fail to compute the square root of a quadratic non-residue", () => { expect(false).toBe(true); });
+    test("Fail to compute the square root of a quadratic non-residue", () => {
+      expect(sqrt(2n, 3n)).toBeNaN();
+    });
     
     test("Fail to compute the square root of a negative integer", () => {
       expect(sqrt(-1n, 13n)).toBeNaN();
