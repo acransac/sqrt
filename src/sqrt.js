@@ -25,15 +25,17 @@ function sqrt(x, modulo) {
              && typeof modulo === "number"
              && modulo > 1
              && Number.isInteger(modulo)) {
-    return ((n, p) => tonelliShanks(n, p).map(bigInt => Number(bigInt)))
-             (BigInt(x), BigInt(modulo));
+    return (roots => {
+      return isNaN(roots) ? roots : roots.map(bigInt => Number(bigInt)).sort((a, b) => a - b);
+    })(tonelliShanks(BigInt(x), BigInt(modulo)));
   }
   else if (typeof x === "bigint"
              && x >= 0n
              && x < modulo
              && typeof modulo === "bigint"
              && modulo > 1n) {
-    return tonelliShanks(x, modulo);
+    return (roots => isNaN(roots) ? roots : roots.sort((a, b) => a - b > 0n ? 1 : 0))
+             (tonelliShanks(x, modulo));
   }
   else {
     return NaN;
