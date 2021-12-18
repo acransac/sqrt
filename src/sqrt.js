@@ -6,33 +6,34 @@ import pow from './pow.js';
 // # General square root
 
 /*
- * Compute the common square root of a Javascript number or the modular square root of standard and arbitrary-precision integers
- * @param {number | bigint} x - The argument whose square roots are computed. It has to be the same type as the modulo
- * @param {number | bigint} [modulo] - The modulo for modular square roots. It has to be the same type as the argument
+ * Compute the common square root of a Javascript number or the modular square root of standard and
+ * arbitrary-precision integers
+ * @param {number | bigint} x - The argument whose square roots are computed. It has to be the same
+ *   type as the modulo
+ * @param {number | bigint} [modulo] - The modulo for modular square roots. It has to be the same
+ *   type as the argument
  * @return {number | [number, number] | bigint | [bigint, bigint] | NaN}
  */
 function sqrt(x, modulo) {
-  if (typeof x === "number" && x >= 0) {
-    if (modulo === undefined) {
-      return Math.sqrt(x);
-    }
-    else if (typeof modulo === "number" && Number.isInteger(modulo) && modulo > 1 && Number.isInteger(x)) {
-      return ((n, p) => tonelliShanks(n % p, p).map(bigInt => Number(bigInt)))(BigInt(x), BigInt(modulo));
-    }
-    else {
-      return NaN;
-    }
+  if (modulo === undefined) {
+    return Math.sqrt(x);
   }
-  else if (typeof x === "bigint" && x >= 0n) {
-    if (modulo === undefined) {
-      return NaN; // TODO
-    }
-    else if (typeof modulo === "bigint" && modulo > 1n) {
-      return tonelliShanks(x, modulo);
-    }
-    else {
-      return NaN;
-    }
+  else if (typeof x === "number"
+             && x >= 0
+             && x < modulo
+             && Number.isInteger(x)
+             && typeof modulo === "number"
+             && modulo > 1
+             && Number.isInteger(modulo)) {
+    return ((n, p) => tonelliShanks(n, p).map(bigInt => Number(bigInt)))
+             (BigInt(x), BigInt(modulo));
+  }
+  else if (typeof x === "bigint"
+             && x >= 0n
+             && x < modulo
+             && typeof modulo === "bigint"
+             && modulo > 1n) {
+    return tonelliShanks(x, modulo);
   }
   else {
     return NaN;
@@ -43,9 +44,7 @@ function sqrt(x, modulo) {
 
 function tonelliShanks(n, p) {
   const legendreSymbol = (n, p) => {
-    const symbol = pow(n, (p - 1n) >> 1n, p);
-  
-    return symbol === p - 1n ? -1n : symbol;
+    return (symbol => symbol === p - 1n ? -1n : symbol)(pow(n, (p - 1n) >> 1n, p));
   };
 
   const factorBy2 = p => {
@@ -106,19 +105,14 @@ function tonelliShanks(n, p) {
     return t === 0n ? [0n, 0n] : [r, p - r];
   };
 
-  if (p === 2n) {
-    return n;
-  }
-  else if (n === 0n) {
+  if (p === 2n || n === 0n) {
     return [n, n];
   }
   else if (legendreSymbol(n, p) !== 1n) {
     return NaN;
   }
   else if (p % 4n === 3n) {
-    const root = pow(n, (p + 1n) >> 2n, p);
-
-    return [root, p - root];
+    return (root => [root, p - root])(pow(n, (p + 1n) >> 2n, p));
   }
   else {
     return findRoots(...factorBy2(p), findQuadraticNonResidue(p), n);
