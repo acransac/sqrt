@@ -63,7 +63,9 @@ describe("Compute modular integer square root", () => {
       expect(sqrt(1.23, 11)).toBeNaN();
     });
 
-    test("Time out when computing a square root modulo a non-prime", () => { expect(false).toBe(true); });
+    test("Could fail to compute a square root modulo a non-prime", () => {
+      expect(sqrt(3, 6)).toBeNaN();
+    });
   });
 
   describe("With small Javascript BigInts", () => {
@@ -95,22 +97,41 @@ describe("Compute modular integer square root", () => {
       expect(sqrt(0n, 1n)).toBeNaN();
     });
 
-    test("Time out when computing a square root modulo a non-prime", () => { expect(false).toBe(true); });
-
-    test("Fail to compute a square root when the argument and the modulo's integer types don't match", () => {
-      expect(sqrt(11, 13n)).toBeNaN();
+    test("Could fail to compute a square root modulo a non-prime", () => {
+      expect(sqrt(3n, 6n)).toBeNaN();
     });
+
+    test(
+      "Fail to compute a square root when the argument and the modulo's integer types don't match",
+      () => expect(sqrt(11, 13n)).toBeNaN());
   });
 
   describe("With Huge Javascript BigInts", () => {
-    test("Compute the square root of an integer modulo an odd prime p = 3 mod 4", () => { expect(false).toBe(true); });
-    
-    test("Compute the square root of an integer modulo an odd prime p = 1 mod 4", () => { expect(false).toBe(true); });
-    
-    test("Fail to compute the square root of a quadratic non-residue", () => { expect(false).toBe(true); });
-    
-    test("Fail to compute the square root of an integer bigger than the modulo", () => { expect(false).toBe(true); });
+    // Reference for primes: https://primes.utm.edu/lists/2small/0bit.html
+    // Reference implementation of the modular square root: https://www.alpertron.com.ar/QUADMOD.HTM
 
-    test("Time out when computing a square root modulo a non-prime", () => { expect(false).toBe(true); });
+    test("Compute the square root of an integer modulo an odd prime p = 3 mod 4", () => {
+      expect(sqrt(1267650600228227149696889519974n, 1267650600228229401496703205223n))
+        .toEqual([403392878153763115700000692025n, 864257722074466285796702513198n]);
+    });
+
+    test("Compute the square root of an integer modulo an odd prime p = 1 mod 4", () => {
+      expect(sqrt(1267650600228227149696889520113n, 1267650600228229401496703205361n))
+        .toEqual([144272477200314296042864382774n, 1123378123027915105453838822587n]);
+    });
+    
+    test("Fail to compute the square root of a quadratic non-residue", () => {
+      expect(sqrt(1267650600228227149696889519975n, 1267650600228229401496703205223n)).toBeNaN();
+    });
+    
+    test("Fail to compute the square root of an integer bigger than the modulo", () => {
+      expect(sqrt(1267650600228229401496703205224n, 1267650600228229401496703205223n)).toBeNaN();
+    });
+
+    test("Could fail to compute a square root modulo a non-prime", () => {
+      expect(sqrt(1606938044258990275541962092128197301683860452079546883115254n,
+                  1606938044258990275541962092128197301683860454331346696800503n))
+        .toBeNaN();
+    });
   });
 });
