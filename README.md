@@ -38,5 +38,4 @@ It can be uninstalled with:
 
 Compute the common square root if only `x` is provided. The latter should be a `number` and a `number` or `NaN` is returned. It is `Math.sqrt`.
 
-Compute the square root of `x` modulo `modulo` if both arguments are provided. `x` and `modulo` can either be `number`s or `bigint`s but they should be of the same type. The pair of roots is returned in ascending order with the same integer type as the inputs. If there is no root or the computation failed or the inputs are invalid `NaN` is returned.
-`x` should range from 0 to `modulo` included. `modulo` should be at least 2 and prime. If `modulo` is not prime, `sqrt` either returns `NaN` or hangs.
+Compute the square root of `x` modulo `modulo` if both arguments are provided. `x` and `modulo` can either be `number`s or `bigint`s but they should be of the same type. `x` should range from 0 to `modulo` included. `modulo` should be at least 2 and prime. The pair of roots is returned in ascending order with the same integer type as the inputs. If there is no root or the computation failed or the inputs are invalid `NaN` is returned. If `modulo` is not prime, `sqrt` either returns `NaN` or hangs.
