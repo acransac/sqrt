@@ -4,9 +4,15 @@ function dirname(url) {
 
 export default {
   mode: "production",
+  experiments: {
+    outputModule: true
+  },
   entry: "./src/index.js",
   output: {
     filename: "sqrt.js",
+    library: {
+      type: "module"
+    },
     path: `${dirname(import.meta.url)}/dist`
   }
 };
