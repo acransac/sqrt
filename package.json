@@ -1,6 +1,6 @@
 {
   "name": "@acransac/sqrt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Compute common and modular square roots",
   "main": "dist/sqrt.js",
   "type": "module",
