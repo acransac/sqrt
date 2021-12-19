@@ -30,11 +30,11 @@ It can be uninstalled with:
 ```
 
 # API
-`**sqrt(x[,modulo])**`
+**`sqrt(x[,modulo])`**
 
-* `x` <number> | <bigint>
-* `modulo` <number> | <bigint> **Default:** `undefined`
-* Returns: <number> | <number[]> | <bigint[]> | <NaN>
+* `x` \<number> | \<bigint>
+* `modulo` \<number> | \<bigint> **Default:** `undefined`
+* Returns: \<number> | \<number[]> | \<bigint[]> | \<NaN>
 
 Compute the common square root if only `x` is provided. The latter should be a `number` and a `number` or `NaN` is returned. It is `Math.sqrt`.
 
